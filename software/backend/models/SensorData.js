@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const sensorDataSchema = new mongoose.Schema({
+    device_id:{
+        type: String,
+        required: true
+    },
     temperature: {
         type: Number,
         required: true
