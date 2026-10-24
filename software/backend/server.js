@@ -1,5 +1,6 @@
 const express = require("express");
 const connectDB = require("./db");
+const SensorData = require("./models/SensorData");
 
 const app = express();
 const PORT = 3000;
@@ -19,7 +20,7 @@ app.get("/api/health",(req,res)=>{
     });
 });
 
-app.post("/api/sensor-data", (req, res) => {
+app.post("/api/sensor-data", async (req, res) => {
   const { temperature, humidity } = req.body;
 
   if (
@@ -31,15 +32,20 @@ app.post("/api/sensor-data", (req, res) => {
     });
   }
 
-  console.log("Sensor data received:", {
-    temperature,
-    humidity
-  });
+  try {
+    const reading = await SensorData.create({
+      temperature,
+      humidity
+    });
 
-  res.json({
-    status: "success",
-    message: "Sensor data received"
-  });
+    res.status(201).json({
+      status: "success",
+      message: "Sensor data saved",
+      data: reading
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to save sensor data" });
+  }
 });
 
 connectDB().then(() => {
