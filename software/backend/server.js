@@ -36,7 +36,7 @@ app.post("/api/sensor-data", async (req, res) => {
     const reading = await SensorData.create({
       temperature,
       humidity
-    });
+    }); 
 
     res.status(201).json({
       status: "success",
@@ -44,12 +44,13 @@ app.post("/api/sensor-data", async (req, res) => {
       data: reading
     });
   } catch (error) {
+    console.error("Save error:", error);
     res.status(500).json({ error: "Failed to save sensor data" });
   }
 });
 
 connectDB().then(() => {
   app.listen(PORT, "0.0.0.0", () => {
-    console.log('Server running on port ${PORT}');
+    console.log(`Server running on port ${PORT}`);
   });
 });
