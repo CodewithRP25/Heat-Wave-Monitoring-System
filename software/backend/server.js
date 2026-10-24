@@ -1,4 +1,5 @@
 const express = require("express");
+const connectDB = require("./db");
 
 const app = express();
 const PORT = 3000;
@@ -41,6 +42,8 @@ app.post("/api/sensor-data", (req, res) => {
   });
 });
 
-app.listen(PORT, "0.0.0.0", () => {
-    console.log("server running on ${PORT}");
+connectDB().then(() => {
+  app.listen(PORT, "0.0.0.0", () => {
+    console.log('Server running on port ${PORT}');
+  });
 });
