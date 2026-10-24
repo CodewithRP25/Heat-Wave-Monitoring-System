@@ -7,36 +7,40 @@ const PORT = 3000;
 
 app.use(express.json());
 
-app.get("/",(req,res) => {
-    res.json({
-        message:"Heat Wave Backend",
-        status:"running"
-    });
+app.get("/", (req, res) => {
+  res.json({
+    message: "Heat Wave Backend",
+    status: "running"
+  });
 });
 
-app.get("/api/health",(req,res)=>{
-    res.json({
-        status:"OK"
-    });
+app.get("/api/health", (req, res) => {
+  res.json({
+    status: "OK"
+  });
 });
 
 app.post("/api/sensor-data", async (req, res) => {
   const { temperature, humidity } = req.body;
 
   if (
+    typeof device_id !== "string" ||
+    device_id.trim() === "" ||
     typeof temperature !== "number" ||
     typeof humidity !== "number"
   ) {
     return res.status(400).json({
-      error: "Temperature and humidity must be numbers"
+      error: "device_id must be a string, Temperature and humidity must be numbers"
     });
   }
 
   try {
     const reading = await SensorData.create({
+      device_id,
       temperature,
-      humidity
-    }); 
+      humidity,
+      ...(timestamp ? { timestamp: new Date(timestamp) } : {})
+    });
 
     res.status(201).json({
       status: "success",
