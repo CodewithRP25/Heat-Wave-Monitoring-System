@@ -21,8 +21,7 @@ app.get("/api/health", (req, res) => {
 });
 
 app.post("/api/sensor-data", async (req, res) => {
-  const { temperature, humidity } = req.body;
-
+  const { device_id, temperature, humidity, timestamp } = req.body;
   if (
     typeof device_id !== "string" ||
     device_id.trim() === "" ||
