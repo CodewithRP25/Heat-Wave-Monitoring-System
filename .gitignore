@@ -1,0 +1,13 @@
+# Wi-Fi credentials
+hardware/wifi_test/secrets.h
+
+# Environment variables and database credentials
+.env
+**/.env
+
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Local build and debug files
+*.log
