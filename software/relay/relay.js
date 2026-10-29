@@ -2,7 +2,7 @@
 const http = require("http");
 
 const PORT = 3001;
-const PP_API = "http://100.112.42.112:3000/api/sensor-data";
+const PP_API = "http://localhost:3000/api/sensor-data";
 
 const server = http.createServer(async (req, res) => {
   if (req.method === "GET" && req.url === "/api/health") {
