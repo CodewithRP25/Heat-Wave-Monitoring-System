@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const connectDB = require("./db");
 const SensorData = require("./models/SensorData");
 
@@ -6,6 +7,7 @@ const app = express();
 const PORT = 3000;
 
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "../frontend")));
 
 app.get("/", (req, res) => {
   res.json({
@@ -20,9 +22,29 @@ app.get("/api/health", (req, res) => {
   });
 });
 
+<<<<<<< HEAD
 app.post("/api/sensor-data", async (req, res) => {
   const { device_id, temperature, humidity, timestamp } = req.body;
+=======
+app.get("/api/sensor-data", async (req, res) => {
+  try {
+    const readings = await SensorData.find()
+      .sort({ timestamp: -1 })
+      .limit(20)
+      .lean();
+>>>>>>> 9cd2f559cb2092a01bb2b8d5e8d13971cc3b7243
 
+    res.json(readings);
+  } catch (error) {
+    console.error("Fetch readings error:", error.message);
+    res.status(500).json({
+      error: "Failed to fetch sensor readings"
+    });
+  }
+});
+
+app.post("/api/sensor-data", async (req, res) => {
+  const { device_id, temperature, humidity, timestamp } = req.body;
   if (
     typeof device_id !== "string" ||
     device_id.trim() === "" ||
