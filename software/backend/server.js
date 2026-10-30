@@ -22,7 +22,6 @@ app.get("/api/health", (req, res) => {
   });
 });
 
-<<<<<<< HEAD
 app.post("/api/sensor-data", async (req, res) => {
   const { device_id, temperature, humidity, timestamp } = req.body;
 =======
@@ -32,7 +31,6 @@ app.get("/api/sensor-data", async (req, res) => {
       .sort({ timestamp: -1 })
       .limit(20)
       .lean();
->>>>>>> 9cd2f559cb2092a01bb2b8d5e8d13971cc3b7243
 
     res.json(readings);
   } catch (error) {
